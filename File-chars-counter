@@ -1,0 +1,21 @@
+%{
+#include <stdio.h>
+%}
+ 
+%%
+[a-zA-Z]+ { words++; }
+[ \t\n] { spaces++; }
+. { characters++; }
+%%
+ 
+int words = 0;
+int spaces = 0;
+int characters = 0;
+ 
+int main() {
+    yyin = fopen("Input.txt", "r");
+    yylex();
+    fclose(yyin);
+    printf("Characters: %d\nWords: %d\nSpaces: %d\n", characters, words, spaces);
+    return 0;
+}
