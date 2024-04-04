@@ -1,0 +1,30 @@
+%option noyywrap nodefault yylineno
+
+%%
+[ \t]+   fprintf(yyout, " ");
+\n       fprintf(yyout, "\n");
+%%
+
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        fprintf(stderr, "Usage: %s <input> <output>\n", argv[0]);
+        return 1;
+    }
+
+    FILE *in = fopen(argv[1], "r");
+    FILE *out = fopen(argv[2], "w");
+
+    if (!in || !out) {
+        fprintf(stderr, "Error opening files\n");
+        return 1;
+    }
+
+    yyin = in;
+    yyout = out;
+    yylex();
+
+    fclose(in);
+    fclose(out);
+
+    return 0;
+}
